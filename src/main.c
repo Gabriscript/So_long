@@ -6,62 +6,101 @@
 
 //  cc main.c libmlx42.a -ldl -lglfw -pthread -lm*/
 
-int main(void)
-{
+ int main(void) {
     t_game game;
-    char **map;
     int width = 0, height = 0;
 
-    // Initialize MLX and window
+    game.mlx = mlx_init(800, 600, "so_long", true);
+    if (!game.mlx) {
+        ft_printf("Error: MLX initialization failed\n");
+        return EXIT_FAILURE;
+    }
+    game.images = load_images(game.mlx);
+    if (!game.images) {
+        ft_printf("Error: Image loading failed\n");
+        return EXIT_FAILURE;
+    }
+    game.map = read_map("./maps/map.ber", &width, &height);
+    if (!game.map) {
+        ft_printf("Error reading map\n");
+        return EXIT_FAILURE;
+    }
+    game.width = width;
+    game.height = height;
+    render_map(game.mlx, game.map, width, height, game.images);
+    mlx_loop_hook(game.mlx, input, &game);
+    mlx_loop(game.mlx);
+    free_map(game.map, height);
+    free(game.images);
+    mlx_terminate(game.mlx);
+    return EXIT_SUCCESS;
+}
+int main(int argc, char **argv)
+{
+    t_game game;
+    int width = 0, height = 0;
+
+    if (argc != 2)
+    {
+        ft_printf("Error\nUso corretto: ./so_long <mappa.ber>\n");
+        return EXIT_FAILURE;
+    }
+
+    if (!is_ber(argv[1])) // Controllo se il file ha estensione .ber
+    {
+        ft_printf("Error\nIl file non ha estensione .ber\n");
+        return EXIT_FAILURE;
+    }
+
+    // Legge la mappa
+    game.map = read_map(argv[1], &width, &height);
+    if (!game.map)
+    {
+        ft_printf("Error\nErrore nel caricamento della mappa.\n");
+        return EXIT_FAILURE;
+    }
+
+    // ✅ Controllo se la mappa è valida
+    if (!validate_map(game.map, width, height))
+    {
+        free_map(game.map, height);
+        return EXIT_FAILURE;
+    }
+
+    // ✅ Se la mappa è valida, avvia il gioco normalmente
+    game.width = width;
+    game.height = height;
+
     game.mlx = mlx_init(800, 600, "so_long", true);
     if (!game.mlx)
     {
-        ft_printf("Error: MLX initialization failed\n");
-        return (EXIT_FAILURE);
+        ft_printf("Error\nMLX initialization failed\n");
+        free_map(game.map, height);
+        return EXIT_FAILURE;
     }
 
-    // Allocate memory for images
-    game.images = load_images(game.mlx); // Load images before rendering
+    game.images = load_images(game.mlx);
     if (!game.images)
     {
-        ft_printf("Error: Image loading failed\n");
-        return (EXIT_FAILURE);
+        ft_printf("Error\nImage loading failed\n");
+        free_map(game.map, height);
+        return EXIT_FAILURE;
     }
 
-    // Read the map from file
-    map = read_map("./maps/map.ber", &width, &height);
-    if (!map)
-    {
-        ft_printf("Error reading map\n");
-        return (EXIT_FAILURE);
-    }
-
-    // Render the map
-    render_map(game.mlx, map, width, height, game.images); // Pass images pointer to render_map
-
-    // Start the MLX event loop
+    render_map(game.mlx, game.map, width, height, game.images);
+    mlx_loop_hook(game.mlx, input, &game);
     mlx_loop(game.mlx);
-    render_map(game.mlx, map, width, height, game.images);
 
-    input(game.mlx);
-    // Free resources
-    for (int i = 0; i < height; i++)
-        free(map[i]);
-    free(map);
-
-    // Free the images memory
+    // Pulizia memoria
+    free_map(game.map, height);
     free(game.images);
-
     mlx_terminate(game.mlx);
 
-    return (EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
-//                   TO DO 
 
-//	 IMPLEMENT PLAYER MOVEMENT
-//   RENDER UNDER THE PLAYER AND COIN THE FLOOR
-//  POLISHING  THE CODE
-//   
+
+  
 
 
 

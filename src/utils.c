@@ -11,9 +11,8 @@ void    init_value(t_counts *count)
 bool is_ber(char *str)
 {
      int len = ft_strlen(str);
-     if(str[len - 1] == 'r' || str[len - 2] == 'e' 
-     || str[len - 3] == 'b' || str[len - 4] == '.')
-          return(true);
-     else 
+     if (len < 4)
           return (false);
+     return (str[len - 1] == 'r' && str[len - 2] == 'e' 
+          && str[len - 3] == 'b' && str[len - 4] == '.');
 }

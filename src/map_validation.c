@@ -191,3 +191,35 @@ int flood_fill_check(char **tab, t_point size, t_point begin, int total_collecti
 }
 
 
+bool validate_map(char **map, int width, int height)
+{
+    // Controlla se la mappa è rettangolare
+    if (!is_rectangular(map, width))
+    {
+        ft_printf("Error\nLa mappa non è rettangolare.\n");
+        return false;
+    }
+
+    // Controlla se la mappa è chiusa da muri
+    if (!walls(map, height, width))
+    {
+        ft_printf("Error\nLa mappa non è circondata da muri.\n");
+        return false;
+    }
+
+    // Controlla se la mappa ha almeno un'uscita, un giocatore e un collezionabile
+    if (!component(map))
+    {
+        ft_printf("Error\nLa mappa non ha i componenti minimi richiesti.\n");
+        return false;
+    }
+
+    // Controllo del pathfinding: verifica se il giocatore può raccogliere tutto e raggiungere l'uscita
+    if (!flood_fill_check(map, (t_point){width, height}, find_player(map), count_collectibles(map)))
+    {
+        ft_printf("Error\nNon esiste un percorso valido nella mappa.\n");
+        return false;
+    }
+
+    return true; // Mappa valida!
+}

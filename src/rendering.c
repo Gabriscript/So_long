@@ -29,30 +29,28 @@ mlx_image_t	*char_to_image(char c, t_images *images)
 	return (img);
 }
 
-t_images	*load_images(mlx_t *mlx)
-{
-	t_images	*images;
+// Caricamento delle immagini con gestione della memoria
+t_images *load_images(mlx_t *mlx) {
+    t_images *images = malloc(sizeof(t_images));
+    if (!images) return NULL;
 
-	images = malloc(sizeof(t_images));
-	if (!images)
-		return (NULL);
-	images->player = mlx_texture_to_image(mlx, mlx_load_png("./assets/character.png"));
-	if(!images->player)
-		ft_printf("Error loading player image");
-	images->collectible = mlx_texture_to_image(mlx, mlx_load_png("./assets/coin.png"));
-	images->exit = mlx_texture_to_image(mlx, mlx_load_png("./assets/exit.png"));
-	images->wall = mlx_texture_to_image(mlx, mlx_load_png("./assets/wall.png"));
-	if(!images->wall)
-		ft_printf("Error loading wall image");
-	images->floor = mlx_texture_to_image(mlx, mlx_load_png("./assets/floor.png"));
-	if (!images->player || !images->collectible || !images->exit
-			||!images->wall || !images->floor)
-	{
-		free(images);
-		ft_printf("Error\nImages not loaded correctly");
-		exit(EXIT_FAILURE);
-	}
-	return (images);
+    images->player = mlx_texture_to_image(mlx, mlx_load_png("./assets/character.png"));
+    images->collectible = mlx_texture_to_image(mlx, mlx_load_png("./assets/coin.png"));
+    images->exit = mlx_texture_to_image(mlx, mlx_load_png("./assets/exit.png"));
+    images->wall = mlx_texture_to_image(mlx, mlx_load_png("./assets/wall.png"));
+    images->floor = mlx_texture_to_image(mlx, mlx_load_png("./assets/floor.png"));
+
+    if (!images->player || !images->collectible || !images->exit || !images->wall || !images->floor) {
+        ft_printf("Error: Images not loaded correctly\n");
+        if (images->player) free(images->player);
+        if (images->collectible) free(images->collectible);
+        if (images->exit) free(images->exit);
+        if (images->wall) free(images->wall);
+        if (images->floor) free(images->floor);
+        free(images);
+        return NULL;
+    }
+    return images;
 }
 
 
@@ -70,18 +68,19 @@ void render_map(mlx_t *mlx, char **map, int width, int height, t_images *images)
         {
             tile = map[y][x];
 
+            // 1️⃣ Disegna sempre il pavimento prima di qualsiasi altro elemento
+            mlx_image_to_window(mlx, images->floor, x * TILE_SIZE, y * TILE_SIZE);
+
+            // 2️⃣ Poi disegna gli altri elementi sopra il pavimento
             img = char_to_image(tile, images);
-         if (img)
-{
-    ft_printf("Rendering image at (%d, %d)\n", x * TILE_SIZE, y * TILE_SIZE);  // Debugging
-    mlx_image_to_window(mlx, img, x * TILE_SIZE, y * TILE_SIZE);
-}
-else
-{
-    ft_printf("Error: Image for tile '%c' is NULL\n", tile);
-}
+            if (img)
+                mlx_image_to_window(mlx, img, x * TILE_SIZE, y * TILE_SIZE);
+            else
+                ft_printf("Error: Image for tile '%c' is NULL\n", tile);
+
             x++;
         }
         y++;
     }
 }
+
