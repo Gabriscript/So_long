@@ -1,11 +1,33 @@
 #include"so_long.h"
 
-void    init_value(t_counts *count)
+void initialization(t_game *game)
 {
-     count->p_count = 0; 
-     count->c_count = 0;
-     count->e_count = 0;
+    game->mlx = NULL;
+    game->images = NULL;
+    game->player_count = 0;
+    game->coin_count = 0;
+    game->exit_count = 0;
+    game->map = NULL;
+    game->player_x = 0;
+    game->player_y = 0;
+    game->moves = 0;
+    game->width = 0;
+    game->height = 0;
+}
+void free_images(t_images *images, mlx_t *mlx)
+{
+    if (images->player)
+        mlx_delete_image(mlx, images->player);
+    if (images->collectible)
+        mlx_delete_image(mlx, images->collectible);
+    if (images->exit)
+        mlx_delete_image(mlx, images->exit);
+    if (images->wall)
+        mlx_delete_image(mlx, images->wall);
+    if (images->floor)
+        mlx_delete_image(mlx, images->floor);
 
+    free(images); // Libera la struttura t_images
 }
 
 bool is_ber(char *str)

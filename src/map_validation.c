@@ -1,63 +1,65 @@
 #include "so_long.h"
 #include <stdio.h>
-char **read_map(const char *file_path, int *width, int *height)
+bool read_map(t_game *game, const char *file_path)
 {
-    int     fd;
-    char    *line;
-    char    **map;
-    int     line_count;
+    int fd;
+    char *line;
+    int line_count;
 
     fd = open(file_path, O_RDONLY);
     if (fd < 0)
     {
         perror("Error opening file");
         ft_printf("Error\nCould not open map file: %s\n", file_path);
-        return (NULL);
+        return false;
     }
-    map = ft_calloc(1024, sizeof(char *)); // Adjust size if needed
-    if (!map)
+
+    game->map = ft_calloc(1024, sizeof(char *)); // Adjust size if needed
+    if (!game->map)
     {
         close(fd);
-        return (NULL);
+        return false;
     }
+
     line_count = 0;
-    *width = -1;
-    line = get_next_line(fd);
-    while (line)
+    game->width = -1;
+    while ((line = get_next_line(fd)) != NULL)
     {
         ft_printf("Read line: %s", line);
-        if (*width == -1)
-            *width = ft_strlen(line) - (line[ft_strlen(line) - 1] == '\n'); // Remove '\n'
-        map[line_count++] = line;
-        line = get_next_line(fd);
+        if (game->width == -1)
+            game->width = ft_strlen(line) - (line[ft_strlen(line) - 1] == '\n'); // Remove '\n'
+        game->map[line_count++] = line;
     }
+
     close(fd);
-    *height = line_count;
-    return (map);
+    game->height = line_count;
+
+    return true;
 }
 
-void free_map(char **map, int height)
+
+void free_map(t_game *game)
 {
     int i;
 
     i = 0;
-    while( i < height)
+    while( i < game->height)
     {
-        free(map[i]);
+        free(game->map[i]);
     }
-    free(map);
-}
+    free(game->map);
 
-bool is_rectangular(char **map, int width)
+}
+bool is_rectangular(t_game *game)
 {
     int i;
     int len;
 
     i = 0;
-    while (map[i])
+    while (game->map[i])
     {
-        len = ft_strlen(map[i]) - (map[i][ft_strlen(map[i]) - 1] == '\n'); // Adjust for '\n'
-        if (len != width)
+        len = ft_strlen(game->map[i]) - (game->map[i][ft_strlen(game->map[i]) - 1] == '\n'); // Adjust for '\n'
+        if (len != game->width)
         {
             ft_printf("Error\nMap is not rectangular.\n");
             return (false);
@@ -68,20 +70,20 @@ bool is_rectangular(char **map, int width)
 }
 
 
-bool walls(char **map, int height, int width)
+bool walls(t_game *game)
 {
     int i;
     int j;
 
     i = 0;
-    while (i < height)
+    while (i < game->height)
     {
-        if (i == 0 || i == height - 1)
+        if (i == 0 || i == game->height - 1)
         {
             j = 0;
-            while (j < width)
+            while (j < game->width)
             {
-                if (map[i][j] != '1')
+                if (game->map[i][j] != '1')
                 {
                     ft_printf("Error\nMap is not surrounded by walls.\n");
                     return (false);
@@ -91,7 +93,7 @@ bool walls(char **map, int height, int width)
         }
         else
         {
-            if (map[i][0] != '1' || map[i][width - 1] != '1')
+            if (game->map[i][0] != '1' || game->map[i][game->width - 1] != '1')
             {
                 ft_printf("Error\nMap is not surrounded by walls.\n");
                 return (false);
@@ -103,42 +105,43 @@ bool walls(char **map, int height, int width)
 }
 
 
-bool component(char **map)
+bool component(t_game *game)
 {
-    t_counts    counts;
+   
     int i;
     int j;
 
     i = 0;
-    while (map[i])
+    while (game->map[i])
     {
         j = 0;
-        while (map[i][j] != '\0')
+        while (game->map[i][j] != '\0')
         {
-            if (map[i][j] == 'P')
-                counts.p_count++;
-            else if (map[i][j] == 'E')
-                counts.e_count++;
-            else if (map[i][j] == 'C')
-                counts.c_count++;
-            else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != '\n')
+            if (game->map[i][j] == 'P')
+               game->player_count++;
+            else if (game->map[i][j] == 'E')
+               game->exit_count++;
+            else if (game->map[i][j] == 'C')
+               game->coin_count++;
+            else if (game->map[i][j] != '1' && game->map[i][j] != '0' && game->map[i][j] != '\n')
             {
-                ft_printf("Error\nInvalid character in map: '%c'.\n", map[i][j]);
+                ft_printf("Error\nInvalid character in map: '%c'.\n", game->map[i][j]);
                 return (false);
             }
             j++;
         }
         i++;
     }
-    if (counts.p_count != 1 || counts.c_count < 1 || counts.e_count != 1)
+    if (game->player_count != 1 ||game->coin_count < 1 ||game->exit_count != 1)
     {
         ft_printf("Error\nInvalid map components (P, C, E).\n");
+        ft_printf("PLayer : %d\nCollectibles : %d\n Exit : %d",game->player_count,game->coin_count,game->exit_count);
         return (false);
     }
     return (true);
 }
 
-bool is_map_valid(const char *map_path)
+/*bool is_map_valid(const char *map_path)
 {
     char    **map;
     int     width;
@@ -154,9 +157,8 @@ bool is_map_valid(const char *map_path)
     }
     free_map(map, height);
     return (true);
-}
-
-void fill(char **tab, t_point size, int x, int y, char target, int *collected, int *exit_reached)
+}*/
+/*static void fill(char **tab, t_point size, int x, int y, char target, int *collected, int *exit_reached)
 {
     if (x < 0 || y < 0 || x >= size.x || y >= size.y || (tab[y][x] != target && tab[y][x] != 'C' && tab[y][x] != 'E'))
         return;
@@ -176,7 +178,7 @@ void fill(char **tab, t_point size, int x, int y, char target, int *collected, i
     fill(tab, size, x, y - 1, target, collected, exit_reached);
 }
 
-int flood_fill_check(char **tab, t_point size, t_point begin, int total_collectibles)
+static int flood_fill_check(char **tab, t_point size, t_point begin, int total_collectibles)
 {
     int collected = 0;
     int exit_reached = 0;
@@ -188,38 +190,38 @@ int flood_fill_check(char **tab, t_point size, t_point begin, int total_collecti
     fill(tab, size, begin.x, begin.y, target, &collected, &exit_reached);
 
     return (collected == total_collectibles && exit_reached);
-}
+}*/
 
 
-bool validate_map(char **map, int width, int height)
+bool validate_map(t_game *game)
 {
     // Controlla se la mappa è rettangolare
-    if (!is_rectangular(map, width))
+    if (!is_rectangular(game))
     {
         ft_printf("Error\nLa mappa non è rettangolare.\n");
         return false;
     }
 
     // Controlla se la mappa è chiusa da muri
-    if (!walls(map, height, width))
+    if (!walls(game))
     {
         ft_printf("Error\nLa mappa non è circondata da muri.\n");
         return false;
     }
 
     // Controlla se la mappa ha almeno un'uscita, un giocatore e un collezionabile
-    if (!component(map))
+    if (!component(game))
     {
         ft_printf("Error\nLa mappa non ha i componenti minimi richiesti.\n");
         return false;
     }
 
     // Controllo del pathfinding: verifica se il giocatore può raccogliere tutto e raggiungere l'uscita
-    if (!flood_fill_check(map, (t_point){width, height}, find_player(map), count_collectibles(map)))
-    {
-        ft_printf("Error\nNon esiste un percorso valido nella mappa.\n");
-        return false;
-    }
+  //  if (!flood_fill_check(map, t_point){width, height}, find_player(map), count_collectibles(map)))
+    //{
+      //  ft_printf("Error\nNon esiste un percorso valido nella mappa.\n");
+        //return false;
+   // }
 
     return true; // Mappa valida!
 }

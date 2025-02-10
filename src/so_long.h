@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:15:25 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/03 10:57:40 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:17:29 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,7 @@ typedef struct s_images
 	mlx_image_t *floor;
 } t_images;
 
-typedef struct s_counts
- {
-    int p_count; 
-    int c_count; 
-    int e_count; 
-} t_counts;
+
 
 typedef struct s_game 
 {
@@ -45,21 +40,29 @@ typedef struct s_game
 	char	**map;
 	int	player_x;
 	int	player_y;
-	int	collectibles;
+
 	int	moves;
 	int	width;
 	int	height;	
+	 int player_count; 
+    int coin_count; 
+    int exit_count;
 
 }	t_game;
 
 
-void    player_motor(t_game *game, int x, int y);
-void	input(void *param);
-bool is_map_valid(const char *map_path);
-void	render_map(mlx_t *mlx, char **map,	int width, int height, t_images *images);
-mlx_image_t	*char_to_image(char c, t_images *images);
-t_images	*load_images(mlx_t *mlx);
-void    init_value(t_counts *count);
-char **read_map(const char *file_path, int *width, int *height);
+void player_motor(t_game *game, int x, int y);
+void input(mlx_key_data_t keydata, void *param);
+bool is_map_valid(t_game *game);
+void render_map(t_game *game);
+mlx_image_t *char_to_image(t_game *game, char c);
+t_images *load_images(t_game *game);
+void initialization(t_game *game);
+bool read_map(t_game *game, const char *file_path);
 bool is_ber(char *str);
+bool validate_map(t_game *game);
+void free_map(t_game *game);
+void free_images(t_images *images, mlx_t *mlx);
+void render_player(t_game *game);
+
 #endif
