@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggargani <ggargani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 08:49:40 by ggargani          #+#    #+#             */
-/*   Updated: 2024/12/23 11:06:07 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:44:59 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ t_list	*find_last_node(t_list *list)
 	return (list);
 }
 
-/*
- * Copy (string\n]
-*/
+
 void	copy_str(t_list *list, char *str)
 {
 	int	i;
@@ -71,10 +69,7 @@ void	copy_str(t_list *list, char *str)
 	str[k] = '\0';
 }
 
-/*
- * find the len to new line in
- * my linked list
-*/
+
 int	len_to_newline(t_list *list)
 {
 	int	i;
@@ -101,10 +96,7 @@ int	len_to_newline(t_list *list)
 	return (len);
 }
 
-/*
- * dealloc all from head
- * set heat->NULL
-*/
+
 void	dealloc(t_list **list, t_list *clean_node, char *buf)
 {
 	t_list	*tmp;
