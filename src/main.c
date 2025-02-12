@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:01:33 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/12 10:01:33 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:28:54 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 
-	if (check_game(argc, argv, &game) == EXIT_FAILURE)
+	if (!check_game(argc, argv, &game))
 		return (EXIT_FAILURE);
 	game.mlx = mlx_init(game.width * TILE, game.height * TILE, "so_long", true);
 	if (!game.mlx)
@@ -28,7 +28,6 @@ int	main(int argc, char **argv)
 	game.imgs = load_images(&game);
 	if (!game.imgs)
 	{
-		ft_putstr_fd("Error\nImage load failed\n", 2);
 		free_map(&game);
 		mlx_terminate(game.mlx);
 		return (EXIT_FAILURE);
@@ -41,5 +40,4 @@ int	main(int argc, char **argv)
 	free_images(game.imgs, game.mlx);
 	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
-    //mlx_get_monitor_size
 }

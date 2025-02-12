@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:23:31 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/11 17:06:59 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:28:49 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_imgs	*load_images(t_game *game)
 	if (!imgs->plyr || !imgs->coin || !imgs->exit
 		|| !imgs->wall || !imgs->floor)
 	{
-		ft_putstr_fd("Error: Images not loaded correctly\n", 2);
 		free_images(imgs, game->mlx);
+		ft_putstr_fd("Error\nImage load failed\n", 2);
 		return (NULL);
 	}
 	return (imgs);
