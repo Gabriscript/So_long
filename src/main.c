@@ -12,26 +12,34 @@
 
 #include "so_long.h"
 
+static bool	init_game(t_game *game)
+{
+	game->mlx = mlx_init(game->width * TILE,
+			game->height * TILE, "so_long", true);
+	if (!game->mlx)
+	{
+		ft_putstr_fd("Error\nMLX init failed\n", 2);
+		free_map(game);
+		return (false);
+	}
+	game->imgs = load_images(game);
+	if (!game->imgs)
+	{
+		free_map(game);
+		mlx_terminate(game->mlx);
+		return (false);
+	}
+	return (true);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game	game;
 
 	if (!check_game(argc, argv, &game))
 		return (EXIT_FAILURE);
-	game.mlx = mlx_init(game.width * TILE, game.height * TILE, "so_long", true);
-	if (!game.mlx)
-	{
-		ft_putstr_fd("Error\nMLX init failed\n", 2);
-		free_map(&game);
+	if (!init_game(&game))
 		return (EXIT_FAILURE);
-	}
-	game.imgs = load_images(&game);
-	if (!game.imgs)
-	{
-		free_map(&game);
-		mlx_terminate(game.mlx);
-		return (EXIT_FAILURE);
-	}
 	render_map(&game);
 	render_player(&game);
 	mlx_key_hook(game.mlx, input, &game);

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"so_long.h"
+#include "so_long.h"
 
-void initialization(t_game *game)
+void	initialization(t_game *game)
 {
 	game->mlx = NULL;
 	game->imgs = NULL;
@@ -28,7 +28,8 @@ void initialization(t_game *game)
 	game->collected = 0;
 	game->exit_reached = 0;
 }
-void free_images(t_imgs *imgs, mlx_t *mlx)
+
+void	free_images(t_imgs *imgs, mlx_t *mlx)
 {
 	if (imgs->plyr)
 		mlx_delete_image(mlx, imgs->plyr);
@@ -46,7 +47,7 @@ void free_images(t_imgs *imgs, mlx_t *mlx)
 bool	is_ber(char *str)
 {
 	int	len;
-	
+
 	len = ft_strlen(str);
 	if (len < 4)
 		return (false);

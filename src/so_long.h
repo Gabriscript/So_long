@@ -17,7 +17,7 @@
 # define SCREEN_WIDTH 3840
 # define SCREEN_HEIGHT 2160
 # include <stdlib.h>
-# include<fcntl.h>
+# include <fcntl.h>
 # include <stdbool.h>
 # include "../libraries/MLX42/include/MLX42/MLX42.h"
 # include "../libraries/libft/libft.h"

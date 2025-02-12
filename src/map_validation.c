@@ -51,7 +51,7 @@ static char	**copy_map(t_game *game)
 static void	fill(t_game *game, char **map, int x, int y)
 {
 	if (x < 0 || y < 0 || x >= game->width || y >= game->height
-			|| (map[y][x] == '1' || map[y][x] == 'F'))
+		|| (map[y][x] == '1' || map[y][x] == 'F'))
 		return ;
 	if (map[y][x] == 'C')
 		game->collected++;
@@ -59,8 +59,7 @@ static void	fill(t_game *game, char **map, int x, int y)
 	{
 		game->exit_reached = 1;
 		game->exit_y = y;
- 		game->exit_x = x;
-
+		game->exit_x = x;
 	}
 	map[y][x] = 'F';
 	fill(game, map, x + 1, y);

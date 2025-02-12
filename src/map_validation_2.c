@@ -39,7 +39,7 @@ bool	walls(t_game *game)
 	{
 		if (y == 0 || y == game->height - 1)
 		{
-            x = 0;
+			x = 0;
 			while (x < game->width)
 			{
 				if (game->map[y][x] != '1')
@@ -53,9 +53,10 @@ bool	walls(t_game *game)
 	}
 	return (true);
 }
-static bool letter_checker(t_game *game, int y, int x)
-{   
-    while (y < game->height)
+
+static bool	letter_checker(t_game *game, int y, int x)
+{
+	while (y < game->height)
 	{
 		x = 0;
 		while (x < game->width)
@@ -79,47 +80,48 @@ static bool letter_checker(t_game *game, int y, int x)
 	}
 	return (true);
 }
+
 bool	has_all_components(t_game *game)
 {
-    int x;
-    int y;
+	int	x;
+	int	y;
 
-    y = 0;
-    x = 0;
+	y = 0;
+	x = 0;
 	game->plyr_count = 0;
 	game->coin_count = 0;
 	game->exit_count = 0;
-    if (!letter_checker(game, y, x)
+	if (!letter_checker(game, y, x)
 		|| game->plyr_count != 1 || game->coin_count < 1
-			|| game->exit_count != 1)
+		|| game->exit_count != 1)
 		return (false);
 	return (true);
 }
-int check_game(int argc, char **argv, t_game *game)
-{
 
-    if (argc != 2)
-    {
-        ft_putstr_fd("Error\nInvalid argument number\n", 2);
-        return (0);
-    }
-    if (!is_ber(argv[1]))
-    {
-        ft_putstr_fd("Error\nChoose a .ber extension\n", 2);
-        return (0);
-    }
-    initialization(game);
-    if (!read_map(game, argv[1]) || !validate_map(game))
-    {
-        free_map(game);
-        return (0);
-    }
+int	check_game(int argc, char **argv, t_game *game)
+{
+	if (argc != 2)
+	{
+		ft_putstr_fd("Error\nInvalid argument number\n", 2);
+		return (0);
+	}
+	if (!is_ber(argv[1]))
+	{
+		ft_putstr_fd("Error\nChoose a .ber extension\n", 2);
+		return (0);
+	}
+	initialization(game);
+	if (!read_map(game, argv[1]) || !validate_map(game))
+	{
+		free_map(game);
+		return (0);
+	}
 	if (game->width * TILE > SCREEN_WIDTH
 		|| game->height * TILE > SCREEN_HEIGHT)
 	{
 		ft_putstr_fd("Error\nMap too big!\n", 2);
-        free_map(game);
-        return (0);
-    }
-    return (1);
+		free_map(game);
+		return (0);
+	}
+	return (1);
 }
