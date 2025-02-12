@@ -9,8 +9,8 @@
 /*   Updated: 2024/11/06 12:06:30 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
-#include<limits.h>
+#include "libft.h"
+#include <limits.h>
 
 static int	oflow(int sign);
 

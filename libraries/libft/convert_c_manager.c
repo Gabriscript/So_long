@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<stdint.h>
-#include"ft_printf.h"
-#include"libft.h"
+#include <stdint.h>
+#include "ft_printf.h"
+#include "libft.h"
 
 int	manage_char(char c)
 {
-	if(c >= 0 && c < 127)
-		return ft_putchar_fd(c, 1), (1);
-	return ft_putchar_fd(c, 1), (0);
+	if (c >= 0 && c < 127)
+		return (ft_putchar_fd(c, 1), (1));
+	return (ft_putchar_fd(c, 1), (0));
 }
 
 int	manage_string(char *s)

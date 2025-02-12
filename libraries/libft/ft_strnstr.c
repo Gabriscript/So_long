@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggargani <ggargani@student.hive.it>        +#+  +:+       +#+        */
+/*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 10:47:38 by ggargani          #+#    #+#             */
-/*   Updated: 2024/11/07 11:26:15 by ggargani         ###   ########.fr       */
+/*   Created: 2025/02/12 09:28:13 by ggargani          #+#    #+#             */
+/*   Updated: 2025/02/12 09:28:13 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include<stddef.h>
+#include "libft.h"
+#include <stddef.h>
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {

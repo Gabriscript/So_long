@@ -42,15 +42,14 @@ t_list	*find_last_node(t_list *list)
 	return (list);
 }
 
-
 void	copy_str(t_list *list, char *str)
 {
 	int	i;
-	int	k;
+	int	j;
 
 	if (NULL == list)
 		return ;
-	k = 0;
+	j = 0;
 	while (list)
 	{
 		i = 0;
@@ -58,17 +57,16 @@ void	copy_str(t_list *list, char *str)
 		{
 			if (list->str_buf[i] == '\n')
 			{
-				str[k++] = '\n';
-				str[k] = '\0';
+				str[j++] = '\n';
+				str[j] = '\0';
 				return ;
 			}
-			str[k++] = list->str_buf[i++];
+			str[j++] = list->str_buf[i++];
 		}
 		list = list->next;
 	}
-	str[k] = '\0';
+	str[j] = '\0';
 }
-
 
 int	len_to_newline(t_list *list)
 {
@@ -92,10 +90,9 @@ int	len_to_newline(t_list *list)
 			++len;
 		}
 		list = list->next;
-	}	
+	}
 	return (len);
 }
-
 
 void	dealloc(t_list **list, t_list *clean_node, char *buf)
 {

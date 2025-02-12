@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/12 09:31:27 by ggargani          #+#    #+#              #
+#    Updated: 2025/02/12 09:31:27 by ggargani         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 RM = rm -f                 # Command to remove files
 MKDIR_P = mkdir -p         # Command to create directories
 

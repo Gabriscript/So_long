@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include<stdlib.h>
+#include "libft.h"
+#include <stdlib.h>
 
 static unsigned int	int_count(long n);
 

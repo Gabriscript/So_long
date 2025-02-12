@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_printf.h"
-#include<stdlib.h>
+#include "ft_printf.h"
+#include <stdlib.h>
 #define HEXL "0123456789abcdef"
 #define HEXU "0123456789ABCDEF"
 

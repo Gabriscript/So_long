@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<stdarg.h>
-#include"ft_printf.h"
-#include"libft.h"
+#include <stdarg.h>
+#include "ft_printf.h"
+#include "libft.h"
 
 int	manage_conversion(char c, va_list args)
 {
@@ -41,6 +41,7 @@ int	ft_printf(const char *format, ...)
 	int		i;
 	int		count;
 	va_list	args;
+
 	if (!format)
 		return (-1);
 	va_start(args, format);

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggargani <ggargani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 16:35:31 by ggargani          #+#    #+#             */
-/*   Updated: 2024/10/30 15:59:54 by ggargani         ###   ########.fr       */
+/*   Created: 2025/02/12 09:27:39 by ggargani          #+#    #+#             */
+/*   Updated: 2025/02/12 09:27:39 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
+
+#include "libft.h"
 #include <stddef.h>
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)

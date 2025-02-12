@@ -9,12 +9,12 @@
 /*   Updated: 2024/11/05 10:52:21 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include<unistd.h>
-#include<limits.h>
-#include"libft.h"
+#include <unistd.h>
+#include <limits.h>
+#include "libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
-{	
+{
 	char	num;
 
 	if (n == INT_MIN)
@@ -34,7 +34,7 @@ void	ft_putnbr_fd(int n, int fd)
 		write(fd, &num, 1);
 	}
 	else
-	{	
+	{
 		num = n + '0';
 		write(fd, &num, 1);
 	}

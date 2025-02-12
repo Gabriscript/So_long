@@ -13,8 +13,6 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 
-
-
 void	polish_list(t_list **list)
 {
 	t_list	*last_node;
@@ -39,7 +37,6 @@ void	polish_list(t_list **list)
 	clean_node->next = NULL;
 	dealloc(list, clean_node, buf);
 }
-
 
 char	*get_line(t_list *list)
 {

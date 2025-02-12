@@ -9,7 +9,7 @@
 /*   Updated: 2024/11/21 11:35:18 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
+#include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include"stdlib.h"
+#include "libft.h"
+#include "stdlib.h"
 
 static size_t	count_words(const char *s, char c);
 static size_t	word_len(const char *s, char c);

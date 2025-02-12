@@ -9,8 +9,8 @@
 /*   Updated: 2024/11/05 10:50:51 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include"libft.h"
-#include<stdlib.h>
+#include "libft.h"
+#include <stdlib.h>
 
 char	*ft_strtrim(char const *s, char const *c)
 {
