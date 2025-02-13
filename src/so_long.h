@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:15:25 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/12 18:28:52 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:39:25 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_game
 int				check_game(int argc, char **argv, t_game *game);
 bool			is_map_valid(t_game *game);
 bool			is_ber(char *str);
+bool			init_game(t_game *game);
 bool			read_map(t_game *game, const char *file_path);
 bool			is_rectangular(t_game *game);
 bool			walls(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:25:15 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/13 10:55:27 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/13 14:39:01 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@ void	initialization(t_game *game)
 
 void	free_images(t_imgs *imgs, mlx_t *mlx)
 {
-	if (imgs->plyr)
-		mlx_delete_image(mlx, imgs->plyr);
-	if (imgs->coin)
-		mlx_delete_image(mlx, imgs->coin);
-	if (imgs->exit)
-		mlx_delete_image(mlx, imgs->exit);
-	if (imgs->wall)
-		mlx_delete_image(mlx, imgs->wall);
-	if (imgs->floor)
-		mlx_delete_image(mlx, imgs->floor);
-	free(imgs);
+	if (imgs)
+	{
+		if (imgs->plyr)
+			mlx_delete_image(mlx, imgs->plyr);
+		if (imgs->coin)
+			mlx_delete_image(mlx, imgs->coin);
+		if (imgs->exit)
+			mlx_delete_image(mlx, imgs->exit);
+		if (imgs->wall)
+			mlx_delete_image(mlx, imgs->wall);
+		if (imgs->floor)
+			mlx_delete_image(mlx, imgs->floor);
+		free(imgs);
+	}
 }
 
 bool	is_ber(char *str)
@@ -69,4 +72,24 @@ void	free_map(t_game *game)
 	}
 	free(game->map);
 	game->map = NULL;
+}
+
+bool	init_game(t_game *game)
+{
+	game->mlx = mlx_init(game->width * TILE,
+			game->height * TILE, "so_long", true);
+	if (!game->mlx)
+	{
+		ft_putstr_fd("Error\nMLX init failed\n", 2);
+		free_map(game);
+		return (false);
+	}
+	game->imgs = load_images(game);
+	if (!game->imgs)
+	{
+		free_map(game);
+		mlx_terminate(game->mlx);
+		return (false);
+	}
+	return (true);
 }
