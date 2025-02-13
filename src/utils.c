@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 09:25:15 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/12 18:28:17 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/13 10:55:27 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ void	free_map(t_game *game)
 	int	i;
 
 	i = 0;
+	if (!game->map)
+		return ;
 	while (i < game->height)
 	{
 		free(game->map[i]);
 		i++;
 	}
 	free(game->map);
+	game->map = NULL;
 }

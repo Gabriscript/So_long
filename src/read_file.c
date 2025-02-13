@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 17:03:06 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/12 18:28:59 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/13 10:51:54 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	open_map_file(const char *file_path)
 
 static bool	allocate_map(t_game *game)
 {
-	game->map = ft_calloc(1024, sizeof(char *));
+	game->map = ft_calloc(60, sizeof(char *));
 	if (!game->map)
 	{
 		ft_putstr_fd("Error\nMemory allocation failed for map\n", 2);
@@ -36,20 +36,25 @@ static bool	allocate_map(t_game *game)
 static bool	read_map_lines(t_game *game, int fd)
 {
 	char	*line;
-	int		line_count;
+	int		lc;
 
-	line_count = 0;
+	lc = 0;
 	game->width = -1;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		if (game->width == -1)
 			game->width = ft_strlen(line) - (line[ft_strlen(line) - 1] == '\n');
-		game->map[line_count++] = line;
+		game->map[lc++] = line;
 		line = get_next_line(fd);
 	}
-	game->height = line_count;
-	if (line_count == 0 || game->width <= 0)
+	game->height = lc;
+	if (lc > 0 && game->map[lc -1][ft_strlen(game->map[lc -1]) - 1] == '\n')
+	{
+		ft_putstr_fd("Error\nNew line at end of the file\n", 2);
+		return (false);
+	}
+	if (lc == 0 || game->width <= 0)
 	{
 		ft_putstr_fd("Error\nMap is empty or invalid\n", 2);
 		return (false);
@@ -71,8 +76,8 @@ bool	read_map(t_game *game, const char *file_path)
 	}
 	if (!read_map_lines(game, fd))
 	{
-		close(fd);
 		free_map(game);
+		close(fd);
 		return (false);
 	}
 	close(fd);

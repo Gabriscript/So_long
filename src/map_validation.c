@@ -6,7 +6,7 @@
 /*   By: ggargani <ggargani@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:06:05 by ggargani          #+#    #+#             */
-/*   Updated: 2025/02/12 18:29:55 by ggargani         ###   ########.fr       */
+/*   Updated: 2025/02/13 10:40:48 by ggargani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ bool	validate_map(t_game *game)
 	}
 	if (!flood_fill_check(game))
 	{
-		ft_putstr_fd("Error\nPath i invalid.\n", 2);
+		ft_putstr_fd("Error\nInvalid path.\n", 2);
 		return (false);
 	}
 	return (true);
